@@ -13,6 +13,6 @@ class ArticleSpider(scrapy.Spider):
 
     def parse(self, response):
         url = response.url
-        title = response.css('h1::text').extract_first()
+        title = response.xpath('//h1[@id="firstHeading"]//text()').get()
         print('URL is: {}'.format(url))
         print('Title is: {}'.format(title))

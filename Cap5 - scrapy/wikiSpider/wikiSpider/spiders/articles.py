@@ -11,7 +11,7 @@ class ArticleSpider(CrawlSpider):
 
     def parse_items(self, response):
         url = response.url
-        title = response.css('h1::text').extract_first()
+        title = response.xpath('//h1[@id="firstHeading"]//text()').get()
         #text = response.xpath('//div[@id="mw-content-text"]//text()').extract()
         last_updated = response.css('li#footer-info-lastmod::text').extract_first()
         last_updated = last_updated.replace('This page was lasted edited on ', '')
