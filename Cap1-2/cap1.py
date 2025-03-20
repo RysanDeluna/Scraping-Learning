@@ -1,17 +1,15 @@
-from urllib.request import urlopen
+import requests
 from urllib.error import HTTPError
 from bs4 import BeautifulSoup
 
 def get_bs(url):
     try:
-        html = urlopen(url)
+        html = requests.get(url)
     except HTTPError as e:
+        print(e)
         return None
-    bs = BeautifulSoup(html.read(), 'html.parser')
+    bs = BeautifulSoup(html.text, 'html.parser')
     return bs
 
-title = get_bs('http://www.pythonscraping.com/pages/page1.html').h1
-if title is None:
-    print("Title could not be found")
-else:
-    print(title)
+bs = get_bs('https://www.reuters.com/site-search/?query=data')
+print(bs.select('ul'))

@@ -40,9 +40,28 @@ def get_random_external_link(starting_page):
     else:
         return external_links[random.randint(0, len(external_links)-1)]
 
+def get_random_internal_link(starting_page):
+    html = urlopen(starting_page)
+    bs = BeautifulSoup(html, 'html.parser')
+    internal_links = get_internal_links(bs, urlparse(starting_page).netloc)
+    if len(internal_links) == 0:
+        print('no more lol')
+        domain = '{}://{}'.format(urlparse(starting_page).scheme, urlparse(starting_page).netloc)
+        print('Stopped at: ', domain)
+        return
+    else:
+        return internal_links[random.randint(0, len(internal_links) - 1)]
+
 def follow_external_only(starting_site):
     external_link = get_random_external_link(starting_site)
     print('Random External link is: {}'.format(external_link))
     follow_external_only(external_link)
 
-follow_external_only('https://www.wix.com/')
+def follow_internal(starting_site):
+    internal = get_random_internal_link(starting_site)
+    print('Random Internal link is: {}'.format(internal))
+    follow_internal(internal)
+
+
+if __name__=='__main__':
+    follow_internal('https://www.wikipedia.org/')
